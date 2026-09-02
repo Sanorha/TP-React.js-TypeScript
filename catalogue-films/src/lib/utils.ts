@@ -13,7 +13,18 @@
 
 // --- Données de démonstration ----------------------------------------
 
-export const FILMS = [
+type genres = "SF" | "Horreur" | "Thriller" | "Drame" | "Aventure"
+
+interface film {
+  id: number
+  titre: string
+  annee: number
+  genres: genres[]
+  note:number
+  statut: string;
+}
+
+export const FILMS: film[] = [
   { id: 1, titre: "Alien", annee: 1979, genres: ["SF", "Horreur"], note: 8.5, statut: "vu" },
   { id: 2, titre: "Blade Runner", annee: 1982, genres: ["SF", "Thriller"], note: 8.1, statut: "vu" },
   { id: 3, titre: "Arrival", annee: 2016, genres: ["SF", "Drame"], note: 7.9, statut: "a_voir" },
@@ -24,11 +35,11 @@ export const FILMS = [
 // --- 1. Paramètres non typés -----------------------------------------
 // Le mode strict interdit les paramètres au type implicite.
 
-export function formaterTitre(titre, annee) {
+export function formaterTitre(titre: string, annee: number) {
   return `${titre} (${annee})`;
 }
 
-export function resume(film) {
+export function resume(film: film) {
   return `${film.titre} — ${film.annee} — ${film.note}/10 — ${film.genres.join(", ")}`;
 }
 
@@ -36,7 +47,7 @@ export function resume(film) {
 // Cette fonction renvoie tantôt un nombre, tantôt une chaîne.
 // Quel type déclarer ? Et surtout : que devra faire celui qui l'appelle ?
 
-export function moyenne(notes) {
+export function moyenne(notes: number[]): number | string {
   if (notes.length === 0) return "Aucune note";
   const total = notes.reduce((a, b) => a + b, 0);
   return total / notes.length;
