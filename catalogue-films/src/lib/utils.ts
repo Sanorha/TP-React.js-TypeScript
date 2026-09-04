@@ -57,26 +57,29 @@ export function moyenne(notes: number[]): number | string {
 // find() renvoie undefined quand rien ne correspond.
 // La deuxième fonction l'ignore complètement.
 
-export function trouverParId(liste, id) {
+export function trouverParId(liste: film[], id: number): undefined | film {
   return liste.find((film) => film.id === id);
 }
 
-export function titreDuFilm(liste, id) {
-  return trouverParId(liste, id).titre;
+export function titreDuFilm(liste: film[], id: number): string | undefined {
+  let film = trouverParId(liste, id)
+  if (film !== undefined) {
+    return film.titre
+  }
 }
 
 // --- 4. Un tri générique ----------------------------------------------
 // On trie par une clé passée en paramètre. Rien ne garantit que cette
 // clé existe sur les objets de la liste.
 
-export function trierPar(liste, cle) {
+export function trierPar(liste: film[], cle: keyof film): film[] {
   return [...liste].sort((a, b) => (a[cle] > b[cle] ? 1 : -1));
 }
 
 // --- 5. Un paramètre optionnel jamais vérifié -------------------------
 // Appelée sans genre, cette fonction filtre sur `undefined`.
 
-export function filtrerParGenre(liste, genre) {
+export function filtrerParGenre(liste: film[], genre: genres) : film[] {
   return liste.filter((film) => film.genres.includes(genre));
 }
 
@@ -84,11 +87,11 @@ export function filtrerParGenre(liste, genre) {
 // `statut` est une chaîne quelconque : rien n'empêche d'écrire "Vu",
 // "vue" ou "à voir". Une faute de frappe passe inaperçue.
 
-export function estVu(film) {
-  return film.statut === "vu";
-}
+export function estVu(film: film): boolean {
+    return film.statut === "vu" ? true : false;
+  }
 
-export function libelleStatut(film) {
+export function libelleStatut(film: film) {
   if (film.statut === "vu") return "Déjà vu";
   if (film.statut === "a_voir") return "À voir";
   if (film.statut === "abandonne") return "Abandonné";
@@ -100,10 +103,13 @@ export function libelleStatut(film) {
 
 export function chargerFavoris() {
   const brut = localStorage.getItem("favoris");
-  return JSON.parse(brut);
+  
+  if (brut!== null) {
+    return JSON.parse(brut);
+  }
 }
 
-export function enregistrerFavoris(favoris) {
+export function enregistrerFavoris(favoris: film[]) {
   localStorage.setItem("favoris", JSON.stringify(favoris));
 }
 
@@ -111,7 +117,7 @@ export function enregistrerFavoris(favoris) {
 // On veut pouvoir modifier un ou plusieurs champs d'un film, sans avoir
 // à tous les repasser. Quel type décrit « quelques champs de Film » ?
 
-export function mettreAJour(film, modifications) {
+export function mettreAJour(film: film[], modifications: Partial<film[]>) {
   return { ...film, ...modifications };
 }
 
@@ -121,7 +127,7 @@ export function mettreAJour(film, modifications) {
 
 let prochainId = 100;
 
-export function creer(nouveauFilm) {
+export function creer(nouveauFilm?: film[]) {
   return { id: prochainId++, ...nouveauFilm };
 }
 
@@ -129,7 +135,7 @@ export function creer(nouveauFilm) {
 // Cette fonction modifie l'objet reçu au lieu d'en renvoyer un nouveau.
 // Le typage ne l'interdira pas — mais `readonly` peut aider.
 
-export function ajouterNote(film, nouvelleNote) {
+export function ajouterNote(film: film, nouvelleNote: string) {
   film.note = (film.note + nouvelleNote) / 2;
   return film;
 }
