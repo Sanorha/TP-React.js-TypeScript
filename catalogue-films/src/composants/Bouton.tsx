@@ -1,4 +1,5 @@
 export type VarianteBouton = "primaire" | "secondaire" | "danger";
+export type TypeBouton = "button" | "submit";
 const VARIANT: Record<VarianteBouton, string> = {
     primaire: 'bg-green-500',
     secondaire: 'bg-yellow-400',
@@ -7,14 +8,15 @@ const VARIANT: Record<VarianteBouton, string> = {
 export interface BoutonProps {
   libelle: string;
   variante?: VarianteBouton; 
+  type?: TypeBouton;
   desactive?: boolean; 
   onClick?: () => void;
 }
 
 
-export function Bouton({ libelle, variante = "primaire", desactive = false, onClick }: BoutonProps) {
+export function Bouton({ libelle, variante = "primaire", type="button", desactive = false, onClick }: BoutonProps) {
   return (<button 
-    type="button"
+    type = {type}
     disabled={desactive}
     onClick={onClick}
     className={`${VARIANT[variante]} ${desactive ? 'desactive' : ''}`}
