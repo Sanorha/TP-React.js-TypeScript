@@ -1,111 +1,99 @@
-import './App.css';
-import { useState } from 'react';
-import { ListeFilms } from './composants/ListeFilms';
-import { Bouton } from './composants/Bouton';
-import FormulaireInscription from './composants/FormulaireInscription';
-import { FILMS, trierPar, filtrerParGenre } from './lib/utils';
-import type { Film } from './lib/utils';
-import type { Inscription } from './lib/inscription';
+import { useState } from "react";
+import FormulaireInscription from "./composants/FormulaireInscription";
+import { ListeInscriptions } from "./composants/ListeInscriptions";
+import type { Inscription, InscriptionEnregistree } from "./lib/inscription";
 
-export type InscriptionEnregistree =
-  Omit<Inscription, 'motDePasse' | 'confirmation'> & { id: number };
+export default function App() {
+  // On initialise l'état avec 2 utilisateurs en utilisant le type InscriptionEnregistree
+  const [inscrits, setInscrits] = useState<InscriptionEnregistree[]>([
+    {
+      id: 1,
+      prenom: "Grace",
+      email: "grace@exemple.fr",
+      cgvAcceptees: true,
+    },
+    {
+      id: 2,
+      prenom: "Alan",
+      email: "alan@exemple.fr",
+      cgvAcceptees: true,
+    },
+  ]);
 
-let compteurId = 0;
-
-function App() {
-  const [inscriptions, setInscriptions] = useState<InscriptionEnregistree[]>([]);
-
-  const handleSelection = (film: Film) => {
-    alert(`Détails du film : ${film.titre}`);
-  };
-
+  // Fonction pour ajouter un nouvel inscrit à la liste
   const handleInscription = (donnees: Inscription) => {
-    const nouvelle: InscriptionEnregistree = {
-      id: ++compteurId,
+    // Le formulaire nous renvoie une "Inscription", mais la liste attend une "InscriptionEnregistree".
+    // On fait donc la conversion ici :
+    const nouvelInscrit: InscriptionEnregistree = {
+      id: Date.now(), // On génère un ID unique fictif basé sur la date
       prenom: donnees.prenom,
       email: donnees.email,
-      cgv: donnees.cgv,
+      cgvAcceptees: donnees.cgv, // On mappe cgv vers cgvAcceptees
     };
-    setInscriptions((liste) => [nouvelle, ...liste]);
+    
+    setInscrits([...inscrits, nouvelInscrit]);
   };
 
-  const supprimerInscription = (id: number) => {
-    setInscriptions((liste) => liste.filter((i) => i.id !== id));
+  // Fonction pour supprimer un inscrit via son id (et non plus son index)
+  const supprimerInscrit = (idASupprimer: number) => {
+    setInscrits(inscrits.filter((inscrit) => inscrit.id !== idASupprimer));
   };
-
-  const filmsTries = trierPar(FILMS, 'titre');
-  const filmsDocs = filtrerParGenre(FILMS, 'Documentaire');
 
   return (
-    <div className="container mx-auto p-6 space-y-12">
-      <header>
-        <h1 className="text-3xl font-bold">Catalogue de films</h1>
-        <p className="text-gray-500">5 films — composants typés et mise en forme Tailwind.</p>
-      </header>
+    <div className="min-h-screen bg-[#f8fafc] p-8 font-sans text-slate-800">
+      <div className="max-w-6xl mx-auto">
+        {/* EN-TÊTE */}
+        <header className="mb-10">
+          <h1 className="text-4xl font-bold text-[#0f172a] mb-2">
+            Créer un compte
+          </h1>
+          <p className="text-slate-500 text-lg">
+            Formulaire contrôlé, typé et validé à la soumission.
+          </p>
+        </header>
 
-      <section>
-        <h2 className="text-xl font-semibold mb-4">Tous les films</h2>
-        <ListeFilms
-          films={filmsTries}
-          onSelection={handleSelection}
-        />
-      </section>
-
-      <section>
-        <h2 className="text-xl font-semibold mb-4">Documentaires</h2>
-        <ListeFilms
-          films={filmsDocs}
-          messageVide="Aucun documentaire dans le catalogue pour le moment."
-        />
-      </section>
-
-      <section className="pt-6 border-t border-gray-200">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-4">
-          Les quatre états du composant Bouton
-        </h3>
-        <div className="flex flex-wrap gap-4 items-center">
-          <Bouton
-            libelle="Action principale"
-            onClick={() => alert('Action principale cliquée !')}
-          />
-          <Bouton libelle="Action secondaire" variante="secondaire" />
-          <Bouton libelle="Supprimer" variante="danger" />
-          <Bouton libelle="Indisponible" variante="primaire" desactive={true} />
-        </div>
-      </section>
-
-      <section className="pt-6 border-t border-gray-200">
-        <h2 className="text-xl font-semibold mb-6">Inscription</h2>
-        <FormulaireInscription onInscription={handleInscription} />
-
-        {inscriptions.length > 0 && (
-          <div className="max-w-md mx-auto mt-8">
-            <h3 className="text-lg font-semibold mb-4">
-              Inscrits ({inscriptions.length})
-            </h3>
-            <ul className="space-y-3">
-              {inscriptions.map((i) => (
-                <li
-                  key={i.id}
-                  className="flex items-center justify-between bg-white p-4 rounded-lg shadow"
-                >
-                  <div>
-                    <p className="font-medium">{i.prenom}</p>
-                    <p className="text-sm text-gray-500">{i.email}</p>
-                  </div>
-                  <Bouton
-                    libelle="Supprimer"
-                    variante="danger"
-                    onClick={() => supprimerInscription(i.id)}
-                  />
-                </li>
-              ))}
-            </ul>
+        {/* GRILLE 2 COLONNES */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          
+          {/* COLONNE GAUCHE : Formulaire */}
+          <div>
+            <h2 className="text-2xl font-bold text-[#0f172a] mb-6">
+              Inscription
+            </h2>
+            
+            <FormulaireInscription onInscription={handleInscription} />
+            
+            {/* Annotation de style */}
+            <p className="text-xs font-bold text-slate-400 mt-6 uppercase tracking-wider">
+              Le formulaire après une soumission invalide
+            </p>
           </div>
-        )}
-      </section>
+
+          {/* COLONNE DROITE : Liste des inscrits */}
+          <div>
+            <h2 className="text-2xl font-bold text-[#0f172a] mb-6">
+              Inscrits ({inscrits.length})
+            </h2>
+
+            {/* UTILISATION DE TON COMPOSANT ICI */}
+            <ListeInscriptions 
+              inscriptions={inscrits} 
+              onSuppression={supprimerInscrit} 
+            />
+
+            {/* Annotation et simulation de l'état vide (pour correspondre au guide de style de ta maquette) */}
+            <div className="mt-10">
+              <p className="text-xs font-bold text-slate-400 mb-4 uppercase tracking-wider">
+                Et quand la liste est vide
+              </p>
+              <div className="bg-[#f1f5f9] p-8 rounded-lg text-center text-slate-500 text-lg">
+                Aucune inscription pour le moment.
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
-
-export default App;
