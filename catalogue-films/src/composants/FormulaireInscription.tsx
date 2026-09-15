@@ -34,11 +34,17 @@ export default function FormulaireInscription({ onInscription }: FormulaireInscr
     }, 800);
   };
  
-  const gererEnvoi = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    soumettre();
-  };
- 
+const gererEnvoi = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  const trouvees = valider(donnees);
+  setErreurs(trouvees);
+  if (Object.keys(trouvees).length > 0) return;
+  setEnvoiEnCours(true);
+  onInscription(donnees);
+  setDonnees(valeursInitiales);
+  setErreurs({});
+  setEnvoiEnCours(false);
+};
   return (
     <form onSubmit={gererEnvoi} noValidate className="space-y-4 max-w-md mx-auto p-6 bg-white rounded-lg shadow">
       <ChampTexte
@@ -90,12 +96,13 @@ export default function FormulaireInscription({ onInscription }: FormulaireInscr
         {erreurs.cgv && <p className="text-red-500 text-sm">{erreurs.cgv}</p>}
       </div>
       
-      <Bouton
-        libelle={envoiEnCours ? "Envoi en cours..." : "S'inscrire"}
-        variante="primaire"
-        desactive={envoiEnCours}
-        onClick={soumettre}
-      />
+     <button
+        type="submit"
+        disabled={envoiEnCours}
+        className="w-full px-4 py-2 bg-green-500 text-white rounded font-medium hover:bg-green-600 disabled:opacity-50 transition"
+      >
+        {envoiEnCours ? "Inscription..." : "S'inscrire"}
+      </button>
     </form>
   );
 }
