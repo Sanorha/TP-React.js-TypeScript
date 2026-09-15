@@ -1,43 +1,50 @@
 export interface Inscription {
-    prenom: string;
-    email: string;
-    motDePasse: string;
-    confirmation: string;
-    cgv: boolean;
+  prenom: string;
+  email: string;
+  motDePasse: string;
+  confirmation: string;
+  cgv: boolean;
 }
 
-export const valeursInitiales: Inscription = {     
-    prenom: "",
-    email: "",
-    motDePasse: "",
-    confirmation: "",
-    cgv: false,  
+export interface InscriptionEnregistree {
+  id: number;
+  prenom: string;
+  email: string;
+  cgvAcceptees: boolean;
+}
+
+export const valeursInitiales: Inscription = {
+  prenom: "",
+  email: "",
+  motDePasse: "",
+  confirmation: "",
+  cgv: false,
 };
 
 export type Erreurs = Partial<Record<keyof Inscription, string>>;
 
 export function valider(donnees: Inscription): Erreurs {
-    const erreurs: Erreurs = {};
+  const erreurs: Erreurs = {};
 
-    if (donnees.prenom.trim().length < 2) {
-        erreurs.prenom = "au moins 2 caractères, espaces de bord ignorés"
-    }
-    
-    if (!donnees.email.includes("@")) {
-        erreurs.email = "format xxx@yyy.zz"
-    }
+  if (donnees.prenom.trim().length < 2) {
+    erreurs.prenom = "au moins 2 caractères, espaces de bord ignorés";
+  }
 
-    if (donnees.motDePasse.length < 8) {
-        erreurs.motDePasse = "8 caractères minimum"
-    }
+  if (!donnees.email.includes("@")) {
+    erreurs.email = "format xxx@yyy.zz";
+  }
 
-    if (donnees.confirmation !== donnees.motDePasse) {
-        erreurs.confirmation = "Dois être identique au motDePasse"
-    }
+  if (donnees.motDePasse.length < 8) {
+    erreurs.motDePasse = "8 caractères minimum";
+  }
 
-    if (!donnees.cgv) {
-        erreurs.cgv = "La CVG dois être lu"
-    }
+  if (donnees.confirmation !== donnees.motDePasse) {
+    erreurs.confirmation = "Dois être identique au motDePasse";
+  }
 
-    return erreurs;
- }
+  if (!donnees.cgv) {
+    erreurs.cgv = "La CVG dois être lu";
+  }
+
+  return erreurs;
+}
