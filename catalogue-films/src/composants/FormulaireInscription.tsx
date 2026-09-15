@@ -96,13 +96,12 @@ const gererEnvoi = (e: React.FormEvent<HTMLFormElement>) => {
         {erreurs.cgv && <p className="text-red-500 text-sm">{erreurs.cgv}</p>}
       </div>
       
-     <button
-        type="submit"
-        disabled={envoiEnCours}
-        className="w-full px-4 py-2 bg-green-500 text-white rounded font-medium hover:bg-green-600 disabled:opacity-50 transition"
-      >
-        {envoiEnCours ? "Inscription..." : "S'inscrire"}
-      </button>
+      <Bouton
+        libelle={envoiEnCours ? "Envoi en cours..." : "S'inscrire"}
+        variante="primaire"
+        desactive={envoiEnCours}
+        onClick={soumettre}
+      />
     </form>
   );
 }
