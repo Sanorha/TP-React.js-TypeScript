@@ -24,15 +24,12 @@ export default function FormulaireInscription({ onInscription }: FormulaireInscr
     setErreurs(trouvees);
     if (Object.keys(trouvees).length > 0) return;
     
-    // Début de l'envoi
     setEnvoiEnCours(true);
     
-    // Simulation du délai réseau (ex: 800 millisecondes)
     window.setTimeout(() => {
       onInscription(donnees);
       setDonnees(valeursInitiales);
       setErreurs({});
-      // Fin de l'envoi
       setEnvoiEnCours(false);
     }, 800);
   };
