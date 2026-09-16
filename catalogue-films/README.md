@@ -1,3 +1,0 @@
-HAREL Kévin
-DARMON Emma
-KARIMOU Nadiath
