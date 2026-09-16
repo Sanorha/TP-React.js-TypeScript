@@ -7,23 +7,24 @@ import type { FilmOmdb, ReponseRecherche } from "./lib/omdb";
 import RechercheFilms from "./composants/RechercheFilms";
 
 export default function App() {
-
   const [films, setFilms] = useState<FilmOmdb[]>([]);
   const [chargement, setChargement] = useState(false);
   const [erreur, setErreur] = useState<string | null>(null);
 
   useEffect(() => {
+    const controleur = new AbortController();
+
     const chargerFilms = async () => {
       setChargement(true);
       setErreur(null);
 
-     try {
+      try {
         const url = construireUrlOmdb({
           apiKey: import.meta.env.VITE_OMDB_KEY || "5a671a5a", 
           recherche: "batman",
-    
         });
-        const r = await fetch(url);
+        
+        const r = await fetch(url, { signal: controleur.signal });
 
         if (!r.ok) {
           throw new Error(`Erreur HTTP : ${r.status}`);
@@ -34,14 +35,24 @@ export default function App() {
         }
         setFilms(d.Search || []);
       } catch (e: unknown) {
+        if (e instanceof Error && e.name === "AbortError") {
+          return; 
+        }
+        
         const message = e instanceof Error ? e.message : "Erreur inconnue";
         setErreur(message);
       } finally {
-        setChargement(false);
+        if (!controleur.signal.aborted) {
+          setChargement(false);
+        }
       }
     };
 
     chargerFilms();
+
+    return () => {
+      controleur.abort();
+    };
   }, []);
 
   return (
