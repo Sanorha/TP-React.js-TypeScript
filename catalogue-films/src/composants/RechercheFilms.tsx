@@ -11,10 +11,10 @@ export default function RechercheFilms() {
 
   useEffect(() => {
     if (!terme) return;
-
     const charger = async () => {
       setChargement(true);
       setErreur(null);
+      setFilms([]);
       try {
         const url = construireUrlOmdb({
           apiKey: import.meta.env.VITE_OMDB_API_KEY || "5a671a5a",
@@ -26,28 +26,19 @@ export default function RechercheFilms() {
         setFilms(d.Search || []);
       } catch (e: unknown) {
         setErreur(e instanceof Error ? e.message : "Erreur inconnue");
-        setFilms([]);
       } finally {
         setChargement(false);
       }
     };
-
     charger();
   }, [terme]);
 
-  if (!terme)        return <p>Tapez un titre pour lancer la recherche.</p>;
-  if (chargement)    return <p>Chargement…</p>;
-  if (erreur)        return <p className="text-red-500">{erreur}</p>;
-  if (!films.length) return <p>Aucun film ne correspond à « {terme} ».</p>;
-
-  return (
-    <>
-      <input
-        value={terme}
-        onChange={(e) => setTerme(e.target.value)}
-        placeholder="Rechercher un film…"
-        className="border p-2 mb-4 w-full"
-      />
+  const renderContenu = () => {
+    if (!terme)        return <p>Tapez un titre pour lancer la recherche.</p>;
+    if (chargement)    return <p>Chargement…</p>;
+    if (erreur)        return <p className="text-red-500">{erreur}</p>;
+    if (!films.length) return <p>Aucun film ne correspond à « {terme} ».</p>;
+    return (
       <ul className="grid grid-cols-3 gap-4">
         {films.map((film) => (
           <li key={film.imdbID}>
@@ -55,6 +46,18 @@ export default function RechercheFilms() {
           </li>
         ))}
       </ul>
-    </>
+    );
+  };
+
+  return (
+    <div>
+      <input
+        value={terme}
+        onChange={(e) => setTerme(e.target.value)}
+        placeholder="Rechercher un film…"
+        className="border p-2 mb-4 w-full"
+      />
+      {renderContenu()}
+    </div>
   );
 }

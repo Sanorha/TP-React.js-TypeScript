@@ -7,68 +7,12 @@ import type { FilmOmdb, ReponseRecherche } from "./lib/omdb";
 import RechercheFilms from "./composants/RechercheFilms";
 
 export default function App() {
-  const [films, setFilms] = useState<FilmOmdb[]>([]);
-  const [chargement, setChargement] = useState(false);
-  const [erreur, setErreur] = useState<string | null>(null);
-
-  useEffect(() => {
-    const controleur = new AbortController();
-
-    const chargerFilms = async () => {
-      setChargement(true);
-      setErreur(null);
-
-      try {
-        const url = construireUrlOmdb({
-          apiKey: import.meta.env.VITE_OMDB_KEY || "5a671a5a", 
-          recherche: "batman",
-        });
-        
-        const r = await fetch(url, { signal: controleur.signal });
-
-        if (!r.ok) {
-          throw new Error(`Erreur HTTP : ${r.status}`);
-        }
-        const d: ReponseRecherche = await r.json();
-        if (d.Response === "False") {
-          throw new Error(d.Error || "Aucun film trouvé");
-        }
-        setFilms(d.Search || []);
-      } catch (e: unknown) {
-        if (e instanceof Error && e.name === "AbortError") {
-          return; 
-        }
-        
-        const message = e instanceof Error ? e.message : "Erreur inconnue";
-        setErreur(message);
-      } finally {
-        if (!controleur.signal.aborted) {
-          setChargement(false);
-        }
-      }
-    };
-
-    chargerFilms();
-
-    return () => {
-      controleur.abort();
-    };
-  }, []);
-
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Recherche OMDb</h1>
-      {chargement && <p>Chargement...</p>}
-      {erreur && <p className="text-red-500">Erreur : {erreur}</p>}
-      <ul className="list-disc pl-5">
-        {films.map((film) => (
-          <li key={film.imdbID}>
-            {film.Title} ({film.Year})
-          </li>
-        ))}
-      </ul>
+      <RechercheFilms />
     </div>
   );
+
   // const [inscrits, setInscrits] = useState<InscriptionEnregistree[]>([
   //   {
   //     id: 1,
