@@ -52,15 +52,17 @@ export default function RechercheFilms() {
     );
   };
 
-  return (
-    <div>
-      <input
-        value={terme}
-        onChange={(e) => setTerme(e.target.value)}
-        placeholder="Rechercher un film…"
-        className="border p-2 mb-4 w-full"
-      />
+ return (
+  <div className="flex flex-col h-full">
+    <input
+      value={terme}
+      onChange={(e) => setTerme(e.target.value)}
+      placeholder="Rechercher un film…"
+      className="border p-2 mb-4 w-full shrink-0"
+    />
+    <div className="overflow-y-auto flex-1">
       {renderContenu()}
     </div>
-  );
+  </div>
+);
 }
