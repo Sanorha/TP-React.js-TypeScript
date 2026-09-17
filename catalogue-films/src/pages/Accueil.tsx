@@ -1,7 +1,7 @@
 export default function Accueil() {
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-2">Recherche de</h1>
+      <h1 className="text-3xl font-bold mb-2">Recherche de film</h1>
       <p className="text-slate-500">Recherchez vos films préférés via l'API OMDb.</p>
     </div>
   );
