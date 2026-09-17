@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import type { FilmOmdb } from "../lib/omdb";
 import { construireUrlOmdb } from "../lib/omdb";
 import CarteFilm from "./CarteFilm";
@@ -42,7 +43,9 @@ export default function RechercheFilms() {
       <ul className="grid grid-cols-3 gap-4">
         {films.map((film) => (
           <li key={film.imdbID}>
-            <CarteFilm film={film} />
+            <Link to={`/films/${film.imdbID}`}>
+              <CarteFilm film={film} />
+            </Link>
           </li>
         ))}
       </ul>
