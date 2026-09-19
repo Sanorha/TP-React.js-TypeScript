@@ -3,9 +3,12 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { AuthProvider } from "./contextes/AuthContext";
 import { FavorisProvider } from "./contextes/FavorisContext";
+import { ThemeProvider } from "./contextes/ThemeContext";
+
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
+  <ThemeProvider>
   <AuthProvider>
     <FavorisProvider>
       <BrowserRouter>
@@ -13,4 +16,5 @@ createRoot(document.getElementById("root")!).render(
       </BrowserRouter>
     </FavorisProvider>
   </AuthProvider>
+  </ThemeProvider>
 );

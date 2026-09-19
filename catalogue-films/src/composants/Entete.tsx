@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../contextes/AuthContext";
 import { useFavoris } from "../contextes/FavorisContext";
+import  BoutonTheme  from "./BoutonTheme"; 
 
 export default function Entete() {
   const { pseudo, deconnecter } = useAuth();
@@ -22,6 +23,8 @@ export default function Entete() {
       </NavLink>
 
       <div className="ml-auto flex items-center gap-4">
+        <BoutonTheme /> {/* ← juste ici */}
+
         {pseudo ? (
           <>
             <span className="text-slate-700">
