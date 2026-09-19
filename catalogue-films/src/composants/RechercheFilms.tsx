@@ -35,10 +35,10 @@ export default function RechercheFilms() {
   }, [terme]);
 
   const renderContenu = () => {
-    if (!terme)        return <p>Tapez un titre pour lancer la recherche.</p>;
-    if (chargement)    return <p>Chargement…</p>;
-    if (erreur)        return <p className="text-red-500">{erreur}</p>;
-    if (!films.length) return <p>Aucun film ne correspond à « {terme} ».</p>;
+    if (!terme)        return <p className="dark:text-slate-300">Tapez un titre pour lancer la recherche.</p>;
+    if (chargement)    return <p className="dark:text-slate-300">Chargement…</p>;
+    if (erreur)        return <p className="text-red-500 dark:text-red-400">{erreur}</p>;
+    if (!films.length) return <p className="dark:text-slate-300">Aucun film ne correspond à « {terme} ».</p>;
     return (
       <ul className="grid grid-cols-3 gap-4">
         {films.map((film) => (
@@ -58,7 +58,7 @@ export default function RechercheFilms() {
       value={terme}
       onChange={(e) => setTerme(e.target.value)}
       placeholder="Rechercher un film…"
-      className="border p-2 mb-4 w-full shrink-0"
+      className="border p-2 mb-4 w-full shrink-0 dark:bg-white/5 dark:border-white/20 dark:text-white dark:placeholder-slate-400"
     />
     <div className="overflow-y-auto flex-1">
       {renderContenu()}

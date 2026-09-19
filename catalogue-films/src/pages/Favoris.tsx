@@ -12,7 +12,7 @@ export default function Favoris() {
         {favoris.length > 0 && (
           <button
             onClick={() => dispatch({ type: "vider" })}
-            className="text-sm bg-red-100 text-red-600 hover:bg-red-200 px-3 py-1 rounded transition-colors"
+            className="text-sm bg-red-100 text-red-600 hover:bg-red-200 px-3 py-1 rounded transition-colors dark:bg-red-500/20 dark:text-red-300 dark:hover:bg-red-500/30"
           >
             Vider les favoris
           </button>
@@ -20,7 +20,7 @@ export default function Favoris() {
       </div>
 
       {favoris.length === 0 ? (
-        <p className="text-slate-500">Vous n'avez aucun film dans vos favoris pour le moment.</p>
+        <p className="text-slate-500 dark:text-slate-300">Vous n'avez aucun film dans vos favoris pour le moment.</p>
       ) : (
         <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {favoris.map((film) => (

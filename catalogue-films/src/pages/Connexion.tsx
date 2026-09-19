@@ -19,9 +19,9 @@ export default function Connexion() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-80px)] bg-slate-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-md border border-slate-100 p-8">
-        <h2 className="text-2xl font-bold text-slate-800 text-center mb-6">
+    <div className="min-h-[calc(100vh-80px)] bg-slate-50 dark:bg-transparent flex items-center justify-center p-4">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-md border border-slate-100 p-8 dark:bg-black/40 dark:backdrop-blur-sm dark:border-white/10">
+        <h2 className="text-2xl font-bold text-slate-800 text-center mb-6 dark:text-white">
           Connexion
         </h2>
 
@@ -29,7 +29,7 @@ export default function Connexion() {
           <div>
             <label
               htmlFor="pseudo"
-              className="block text-sm font-medium text-slate-700 mb-2"
+              className="block text-sm font-medium text-slate-700 mb-2 dark:text-slate-300"
             >
               Pseudo
             </label>
@@ -39,7 +39,7 @@ export default function Connexion() {
               value={saisie}
               onChange={(e) => setSaisie(e.target.value)}
               placeholder="Entrez votre pseudo"
-              className="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all placeholder:text-slate-400 text-slate-800"
+              className="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all placeholder:text-slate-400 text-slate-800 dark:bg-white/5 dark:border-white/20 dark:text-white dark:placeholder:text-slate-500"
             />
           </div>
 

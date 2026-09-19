@@ -14,7 +14,7 @@ export default function CarteFilm({ film }: { film: FilmOmdb }) {
 
   const affiche =
     !film.Poster || film.Poster === "N/A" || imgErreur ? (
-      <div className="w-full h-128 bg-gray-100 flex items-center justify-center text-gray-400 rounded">
+      <div className="w-full h-128 bg-gray-100 flex items-center justify-center text-gray-400 rounded dark:bg-white/5 dark:text-slate-500">
         Pas d'affiche
       </div>
     ) : (
