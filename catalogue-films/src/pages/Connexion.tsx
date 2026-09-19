@@ -1,10 +1,12 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contextes/AuthContext";
 
 export default function Connexion() {
   const [saisie, setSaisie] = useState("");
   const { connecter } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -12,6 +14,7 @@ export default function Connexion() {
     if (pseudoNettoye !== "") {
       connecter(pseudoNettoye);
       setSaisie("");
+      navigate("/"); // pour rediriger vers l'accueil après connexion
     }
   };
 
