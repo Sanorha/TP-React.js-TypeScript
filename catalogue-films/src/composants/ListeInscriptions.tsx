@@ -3,8 +3,7 @@ import React from 'react';
 import { Carte } from './Carte';
 import { Badge } from './Badge';
 import { Bouton } from './Bouton';
-import type { InscriptionEnregistree } from '../lib/inscription'; // Ajuste le chemin vers ton fichier inscription si besoin
-
+import type { InscriptionEnregistree } from '../lib/inscription'; 
 export interface ListeInscriptionsProps {
   inscriptions: InscriptionEnregistree[];
   onSuppression?: (id: number) => void;
