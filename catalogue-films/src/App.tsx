@@ -4,7 +4,9 @@ import Accueil from "./pages/Accueil";
 import Recherche from "./pages/Recherche";
 import DetailFilm from "./pages/DetailFilm";
 import Connexion from "./pages/Connexion";
+import Favoris from "./pages/Favoris";
 import PageIntrouvable from "./pages/PageIntrouvable";
+import { RouteProtegee } from "./composants/RouteProtegee";
 
 export default function App() {
   return (
@@ -14,6 +16,14 @@ export default function App() {
         <Route path="recherche" element={<Recherche />} />
         <Route path="films/:id" element={<DetailFilm />} />
         <Route path="connexion" element={<Connexion />} />
+        <Route
+          path="favoris"
+          element={
+            <RouteProtegee>
+              <Favoris />
+            </RouteProtegee>
+          }
+        />
         <Route path="*" element={<PageIntrouvable />} />
       </Route>
     </Routes>
