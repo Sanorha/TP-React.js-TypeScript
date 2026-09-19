@@ -18,6 +18,14 @@ export default function App() {
           <Route path="recherche" element={<Recherche />} />
           <Route path="films/:id" element={<DetailFilm />} />
           <Route path="connexion" element={<Connexion />} />
+          <Route
+          path="/favoris"
+          element={
+            <RouteProtegee>
+              <Favoris />
+            </RouteProtegee>
+          }
+        />
           <Route path="*" element={<PageIntrouvable />} />
         </Route>
       </Routes>

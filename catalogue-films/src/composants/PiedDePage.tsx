@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 export default function PiedDePage() {
   return (
     <footer className="bg-slate-900 text-slate-400 mt-auto border-t border-slate-800">

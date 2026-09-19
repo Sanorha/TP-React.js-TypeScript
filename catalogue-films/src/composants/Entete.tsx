@@ -1,8 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../contextes/AuthContext";
+import { useFavoris } from "../contextes/FavorisContext";
 
 export default function Entete() {
   const { pseudo, deconnecter } = useAuth();
+  const { favoris } = useFavoris();
 
   const classLien = ({ isActive }: { isActive: boolean }) =>
     isActive ? "font-bold text-blue-600" : "text-slate-600 hover:text-blue-500";
@@ -14,6 +16,9 @@ export default function Entete() {
       </NavLink>
       <NavLink to="/recherche" className={classLien}>
         Recherche
+      </NavLink>
+      <NavLink to="/favoris" className={classLien}>
+        Favoris ({favoris.length})
       </NavLink>
 
       <div className="ml-auto flex items-center gap-4">
